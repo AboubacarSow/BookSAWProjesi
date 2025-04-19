@@ -20,6 +20,8 @@ namespace Repositories.EFCore.Models
         {
             var source=await FindAll(trackChanges)
                              .FilterBooks(bookParameters)
+                             .Search(bookParameters.SearchTerm)
+                             .Sort(bookParameters.OrderByString)
                              .ToListAsync();
 
             return PagedList<Book>.ToPagedList(source, bookParameters.PageNumber, bookParameters.PageSize);

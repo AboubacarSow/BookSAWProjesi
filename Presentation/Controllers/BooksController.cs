@@ -74,5 +74,12 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers["Allow"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
+            return Ok();
+        }
+
     }
 }

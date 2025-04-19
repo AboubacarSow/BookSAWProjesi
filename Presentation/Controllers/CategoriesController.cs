@@ -57,7 +57,12 @@ namespace Presentation.Controllers
             await _manager.CategoryService.DeleteOneCategoryAsync(id,true);
             return Ok(new {StatusCode=200, Message=$"Category with id:{id} has been deleted"});
         }
-
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers["Allow"] = "GET,POST,PUT,DELETE,OPTIONS";
+            return Ok();
+        }
 
     }
 }
