@@ -2,7 +2,7 @@
 {
     public interface IServiceManager
     {
-        IBookService ProductService { get; }
+        IBookService BookService { get; }
         ICategoryService CategoryService { get; }
     }
 }

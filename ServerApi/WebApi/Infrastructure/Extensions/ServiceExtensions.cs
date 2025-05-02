@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Marvin.Cache.Headers;
+using Microsoft.EntityFrameworkCore;
 using Presentation.ActionsFilters;
 using Repositories.Contracts;
 using Repositories.EFCore.Context;
@@ -46,10 +47,28 @@ namespace WebApi.Infrastructure.Extensions
             {
                 options.AddPolicy("CorsPolicy", builder =>
                 {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyMethod();
-                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .WithExposedHeaders("X-Pagination");
+                    
                 });
+            });
+        }
+
+        //Configuring Caching 
+        public static  void ConfigureResponseCaching(this IServiceCollection services) =>
+            services.AddResponseCaching();
+
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+        {
+            services.AddHttpCacheHeaders(expressionOptions =>
+            {
+                expressionOptions.CacheLocation = CacheLocation.Public;
+                expressionOptions.MaxAge = 60;
+            }, validationOptions =>
+            {
+                validationOptions.MustRevalidate = false;
             });
         }
        

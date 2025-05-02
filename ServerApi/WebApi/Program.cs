@@ -32,6 +32,8 @@ namespace WebApi
             builder.Services.ConfigureServiceManager();
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureActionFilters();
+            builder.Services.ConfigureResponseCaching();
+            builder.Services.ConfigureHttpCacheHeaders();
 
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -46,7 +48,7 @@ namespace WebApi
             logger.LogInfo("Application is Running...");
             app.ConfigureExceptionHandler(logger);
 
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -59,7 +61,8 @@ namespace WebApi
                 app.UseHsts();
             app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
-
+            app.UseResponseCaching();
+            app.UseHttpCacheHeaders();//This method must be called after UseCors()
 
             app.UseAuthorization();
 
