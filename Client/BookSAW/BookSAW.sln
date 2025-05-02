@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookSAW", "BookSAW\BookSAW.csproj", "{2C5FA0B0-DE5D-6005-E695-F524CE503F1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookSAW.Client", "BookSAW.Client\BookSAW.Client.csproj", "{CEF788B4-E526-1A59-FDCA-36ECB7206936}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C5FA0B0-DE5D-6005-E695-F524CE503F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5FA0B0-DE5D-6005-E695-F524CE503F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C5FA0B0-DE5D-6005-E695-F524CE503F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C5FA0B0-DE5D-6005-E695-F524CE503F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEF788B4-E526-1A59-FDCA-36ECB7206936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF788B4-E526-1A59-FDCA-36ECB7206936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF788B4-E526-1A59-FDCA-36ECB7206936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF788B4-E526-1A59-FDCA-36ECB7206936}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {879BC978-1290-49D1-BFDA-3E4FF3DDEB6D}
+	EndGlobalSection
+EndGlobal
