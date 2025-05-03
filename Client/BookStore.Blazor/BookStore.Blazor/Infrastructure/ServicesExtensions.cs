@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Utilities;
 namespace BookStore.Blazor.Infrastructure;
 public static class ServicesExtensions
@@ -9,6 +11,7 @@ public static class ServicesExtensions
         {
             var apiSettings = configuration.GetSection("ApiSettings").Get<ApiSettings>();
             client.BaseAddress = new Uri(apiSettings?.BaseUrl ?? string.Empty);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         });
        
     }
