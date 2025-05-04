@@ -1,23 +1,34 @@
 @page "/admin/createBook"
+@using System.Diagnostics;
 @inject IServiceManager _manager
 @inject IServiceProvider _serviceProvider
 @inject NavigationManager _navigationManager
+@rendermode InteractiveServer
+<PageTitle>Yeni Kitap Ekle</PageTitle>
 
 <div class="form-container mx-3">
     <h4 class="title text-center"><i class="fa-solid fa-book me-2"></i>Yeni Kitap Ekleme</h4>
-    <EditForm FormName="CreateBookForm" Model="@book" method="post" OnValidSubmit="@CreateBookAsync">
+    <hr class="mb-4" />
+    @if (!string.IsNullOrEmpty(erreurMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            @erreurMessage
+        </div>
+    }
+    <EditForm FormName="CreateBookForm" Model="@book" OnValidSubmit="@CreateBookAsync" Enhance>
         <DataAnnotationsValidator />
         <div class="mb-3 form-div">
             <label for="bookName" class="form-label">Kitap Adı</label>
             <InputText type="text" class="@GetInputClass(nameof(book.Name))" 
-            id="bookName" placeholder="Kitap adı girin" @bind-value="book.Name"/>
-            <span class="text-danger"><ValidationMessage For="@(() => book.Name)" /></span>
+            id="bookName" placeholder="Kitap adı girin" @bind-Value="book.Name"/>
+            <ValidationMessage For="@(() => book.Name)" class="text-danger" />
         </div>
         <div class="mb-3 form-div">
             <label for="bookPrice" class="form-label">Fiyat</label>
             <InputNumber type="number" class="@GetInputClass(nameof(book.Price))"
-             id="bookPrice" placeholder="Fiyat girin" @bind-value="book.Price" />
-            <span class="text-danger" ><ValidationMessage For="@(() => book.Price)" /></span>
+             id="bookPrice" placeholder="Fiyat girin" @bind-Value="book.Price" />
+           <ValidationMessage For="@(() => book.Price)" class="text-danger" />
         </div>
         <div class="mb-3 form-div">
             <label for="bookCategory" class="form-label">Category</label>
@@ -28,12 +39,12 @@
                     <option value="@category.CategoryId">@category.CategoryName</option>
                 }
             </InputSelect>
-            <span class="text-danger"><ValidationMessage For="@(() => book.CategoryId)" /></span>
+            <ValidationMessage For="@(() => book.CategoryId)"class="text-danger" />
         </div>
         <div class="mb-3 form-div">
             <label for="bookStock" class="form-label">Stok</label>
             <InputNumber type="number" class="@GetInputClass(nameof(book.Stock))"
-             id="bookStok" placeholder="Stok girin" @bind-value="book.Stock" />
+             id="bookStok" placeholder="Stok girin" @bind-Value="book.Stock" />
             <span class="text-danger"><ValidationMessage For="@(() => book.Stock)" /></span>
         </div>
         <div class="d-flex justify-content-center">
@@ -51,21 +62,26 @@
 
 
 @code{
+    private string erreurMessage="";
     [CascadingParameter]
     private EditContext? editContext{get;set;}
+    [SupplyParameterFromForm(FormName = "CreateBookForm")]
+
     private CreateBookDto book {get;set;} = new();
     private List<ResultCategoryDto> categories=[];
     protected override async Task OnInitializedAsync()
     {
         categories = await _manager.CategoryService.GetAllCategoriesAsync();
-        editContext=_serviceProvider.GetService<EditContext>();
     }
     private async Task CreateBookAsync()
     {
         var response=await _manager.BookService.AddBookAsync(book);
-        if (response.IsSuccessStatusCode)
-            _navigationManager.NavigateTo("/admin/books");
-        return ;
+        if (!response.IsSuccessStatusCode){
+            erreurMessage = "une erreur s'est produite lors de l'ajout du livre.";
+            return;
+        }
+        _navigationManager.NavigateTo("/admin/books");
+        
     }
     private string GetInputClass(string fieldName)
     {
@@ -76,3 +92,4 @@
         return isInvalid ? "form-control form-input invalid" : " form-control form-input";
     }
 }    
+    

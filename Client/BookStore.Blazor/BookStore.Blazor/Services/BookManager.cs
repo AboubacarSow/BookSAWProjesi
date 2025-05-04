@@ -12,7 +12,7 @@ public class BookManager(IHttpClientFactory httpClientFactory) : IBookService
     {
         var jsonData = JsonConvert.SerializeObject(bookdto);
         var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync("books", content);
+        var response = await _httpClient.PostAsync("books/CreateOneBook", content);
         return response;
     }
     public async Task<HttpResponseMessage> DeleteBookAsync(int id)

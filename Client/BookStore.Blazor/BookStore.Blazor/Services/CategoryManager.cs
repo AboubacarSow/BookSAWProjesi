@@ -11,7 +11,7 @@ public class CategoryManager(IHttpClientFactory httpClientFactory) : ICategorySe
     {
         var jsonData = JsonConvert.SerializeObject(categorydto);
         var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync("categories", content);
+        var response = await _httpClient.PostAsync("categories/createonecategory", content);
         return response;
     }
     public async Task<HttpResponseMessage> DeleteCategoryAsync(int id)
