@@ -26,7 +26,7 @@ public class CategoryManager(IHttpClientFactory httpClientFactory) : ICategorySe
         var response = await _httpClient.PutAsync($"categories/{categorydto.CategoryId}", content);
         return response;
     }
-    public async Task<List<ResultCategoryDto>> GetAllCategoriesAsync(bool trackChanges)
+    public async Task<List<ResultCategoryDto>> GetAllCategoriesAsync()
     {
         var response = await _httpClient.GetAsync("categories");
         if (!response.IsSuccessStatusCode)
@@ -40,7 +40,7 @@ public class CategoryManager(IHttpClientFactory httpClientFactory) : ICategorySe
         var jsonData = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData) ?? [];
     }
-    public async Task<ResultCategoryDto> GetCategoryAsync(int id, bool trackCkanges)
+    public async Task<ResultCategoryDto> GetCategoryAsync(int id)
     {
         var response = await _httpClient.GetAsync($"categories/{id}");
         if (!response.IsSuccessStatusCode)

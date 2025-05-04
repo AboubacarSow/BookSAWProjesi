@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="29.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="29.1.33" />
     <ProjectReference Include="..\BookStore.Blazor.Client\BookStore.Blazor.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.13" />
   </ItemGroup>

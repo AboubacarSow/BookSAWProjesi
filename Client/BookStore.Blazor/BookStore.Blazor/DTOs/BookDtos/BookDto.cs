@@ -1,10 +1,10 @@
 ﻿
 namespace DTOs.BookDtos;
 
-public record BookDto
+public class BookDto
 {
-    public required string Name { get; init; }
-    public decimal Price { get; init; }
-    public int Stock { get; init; }
+    public  string? Name { get; set; }
+    public decimal Price { get; set; }
+    public int Stock { get; set; }
     
 }

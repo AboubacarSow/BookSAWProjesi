@@ -1,0 +1,78 @@
+@page "/admin/createBook"
+@inject IServiceManager _manager
+@inject IServiceProvider _serviceProvider
+@inject NavigationManager _navigationManager
+
+<div class="form-container mx-3">
+    <h4 class="title text-center"><i class="fa-solid fa-book me-2"></i>Yeni Kitap Ekleme</h4>
+    <EditForm FormName="CreateBookForm" Model="@book" method="post" OnValidSubmit="@CreateBookAsync">
+        <DataAnnotationsValidator />
+        <div class="mb-3 form-div">
+            <label for="bookName" class="form-label">Kitap Adı</label>
+            <InputText type="text" class="@GetInputClass(nameof(book.Name))" 
+            id="bookName" placeholder="Kitap adı girin" @bind-value="book.Name"/>
+            <span class="text-danger"><ValidationMessage For="@(() => book.Name)" /></span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookPrice" class="form-label">Fiyat</label>
+            <InputNumber type="number" class="@GetInputClass(nameof(book.Price))"
+             id="bookPrice" placeholder="Fiyat girin" @bind-value="book.Price" />
+            <span class="text-danger" ><ValidationMessage For="@(() => book.Price)" /></span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookCategory" class="form-label">Category</label>
+            <InputSelect type="number" class="form-control " id="bookCategory" @bind-Value="book.CategoryId">
+                <option value="">Seçiniz</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.CategoryId">@category.CategoryName</option>
+                }
+            </InputSelect>
+            <span class="text-danger"><ValidationMessage For="@(() => book.CategoryId)" /></span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookStock" class="form-label">Stok</label>
+            <InputNumber type="number" class="@GetInputClass(nameof(book.Stock))"
+             id="bookStok" placeholder="Stok girin" @bind-value="book.Stock" />
+            <span class="text-danger"><ValidationMessage For="@(() => book.Stock)" /></span>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Kaydet
+            </button>
+            <a href="/admin/books" class="btn btn-secondary ms-2">
+            <i class="fa-solid fa-arrow-left"></i>
+                Geri Dön
+            </a>
+        </div>
+    </EditForm>
+</div>
+
+
+@code{
+    [CascadingParameter]
+    private EditContext? editContext{get;set;}
+    private CreateBookDto book {get;set;} = new();
+    private List<ResultCategoryDto> categories=[];
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await _manager.CategoryService.GetAllCategoriesAsync();
+        editContext=_serviceProvider.GetService<EditContext>();
+    }
+    private async Task CreateBookAsync()
+    {
+        var response=await _manager.BookService.AddBookAsync(book);
+        if (response.IsSuccessStatusCode)
+            _navigationManager.NavigateTo("/admin/books");
+        return ;
+    }
+    private string GetInputClass(string fieldName)
+    {
+        if (editContext == null) return "form-control form-input";
+        // Check if the field is valid
+        var fieldIdentifier = new FieldIdentifier(book, fieldName);
+        var isInvalid = editContext?.GetValidationMessages(fieldIdentifier).Any() == true;
+        return isInvalid ? "form-control form-input invalid" : " form-control form-input";
+    }
+}    

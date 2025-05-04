@@ -2,6 +2,7 @@ using BookStore.Blazor.Client.Pages;
 using BookStore.Blazor.Components;
 using BookStore.Blazor.Infrastructure;
 using DependencyInjection;
+using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.AddSyncfusionBlazor();
 builder.Services.ConfigureApiServices(builder.Configuration);
 builder.Services.ConfigureServices();
 
