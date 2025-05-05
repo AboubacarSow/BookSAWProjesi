@@ -12,12 +12,27 @@ else{
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="entete">
                 <h4 class="title"><i class="fa-solid fa-book me-2"></i>Kitaplar</h4>
-                <a href="admin/createBook" class="btn btn-outline-primary">
+                <a href="admin/createBook" class="btn btn-outline-primary ms-2">
                     <i class="fa-solid fa-plus"></i>
                     Yeni Kitap Ekle
                 </a>
             </div>
         </div>
+        @if(!string.IsNullOrEmpty(erreurMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                @erreurMessage
+            </div>
+        }
+        @if(!string.IsNullOrEmpty(successMessage))
+        {
+            <div class="alert alert-success" role="alert">
+                <i class="fa-solid fa-circle-check"></i>
+                @successMessage
+            </div>
+        }
+       
         <div class="d-flex margin-auto">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Arama yapın..." aria-label="Arama yapın..." aria-describedby="button-addon2">
@@ -55,7 +70,7 @@ else{
                     @foreach(var book in books)
                     {
                         count++;
-                        <tr>
+                        <tr class="text-nowrap">
                             <td>@count</td>
                             <td>@book.Name</td>
                             <td>@book.Price</td>
@@ -63,10 +78,10 @@ else{
                             <td>@book.Category.CategoryName</td>
                             <td>
                                 <div>
-                                    <button class="btn btn-danger" @onclick="() => Delete(book.Id)">
+                                    <button class="btn btn-danger" @onclick="PrintHelloworld">
                                         <i class="fa fa-trash me-1"></i> Sil
                                     </button>
-                                    <a href="admin/updateBook/@book.Id" class="btn btn-success" >
+                                    <a href="admin/editBook/@book.Id" class="btn btn-success" >
                                     <i class="fa fa-edit me-1"></i>
                                     Güncelle</a> 
                                 </div>
@@ -81,6 +96,8 @@ else{
 
 
 @code{
+    private string erreurMessage=string.Empty;
+    private string successMessage=string.Empty;
     private int count=0;
     private List<ResultBookDto>? books;
     protected override async Task  OnInitializedAsync()
@@ -89,12 +106,19 @@ else{
     }
     private async Task Delete(int id)
     {
-        var result = await _manager.BookService.DeleteBookAsync(id);
-        var response= result.IsSuccessStatusCode;
-        if(response)
-        {
-            books = await _manager.BookService.GetAllBooksAsync();
+       
+            //var result = await _manager.BookService.DeleteBookAsync(id);
+            //var response= result.IsSuccessStatusCode;
+            
+            successMessage = $"Simulation de la suppression. Book ID: {id} supprimé avec succès.";
+            //books = await _manager.BookService.GetAllBooksAsync();
+            await Task.Delay(500);
             StateHasChanged();
-        }
     }
+    private void PrintHelloworld()
+    {
+        successMessage = "Hello World!";
+        StateHasChanged();
+    }
+    
 }

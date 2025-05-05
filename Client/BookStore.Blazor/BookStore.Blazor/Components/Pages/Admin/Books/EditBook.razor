@@ -1,14 +1,14 @@
-@page "/admin/createBook"
-@using System.Diagnostics;
+@page "/admin/editBook/{bookId:int}"
 @inject IServiceManager _manager
-@inject IServiceProvider _serviceProvider
-@inject NavigationManager _navigationManager
 @rendermode InteractiveServer
-<PageTitle>Yeni Kitap Ekle</PageTitle>
+@inject NavigationManager _navigationManager
 
+<PageTitle>Kitap Güncelle</PageTitle>
 <div class="form-container mx-3">
-    <h4 class="title text-center"><i class="fa-solid fa-book me-2"></i>Yeni Kitap Ekleme</h4>
-    <hr class="mb-4" />
+    <h4 class="title text-center"><i class="fa-solid fa-book me-2"></i>Kitap Güncelleme</h4>
+    <div class="d-flex justify-content-center mb-3">
+            <hr class="mb-4 w-50 text-center" />
+    </div>
     @if (!string.IsNullOrEmpty(erreurMessage))
     {
         <div class="alert alert-danger" role="alert">
@@ -16,8 +16,9 @@
             @erreurMessage
         </div>
     }
-    <EditForm FormName="CreateBookForm" Model="@book" OnValidSubmit="@CreateBookAsync" Enhance>
+    <EditForm FormName="UpdateBookForm" Model="@book" OnValidSubmit="@EditBookAsync" Enhance>
         <DataAnnotationsValidator />
+        <input type="hidden" @bind-value="book.Id" />
         <div class="mb-3 form-div">
             <label for="bookName" class="form-label">Kitap Adı</label>
             <InputText type="text" class="@GetInputClass(nameof(book.Name))" 
@@ -48,9 +49,9 @@
             <span class="text-danger"><ValidationMessage For="@(() => book.Stock)" /></span>
         </div>
         <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-plus"></i>
-                Kaydet
+            <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-edit"></i>
+                Güncelle
             </button>
             <a href="/admin/books" class="btn btn-secondary ms-2">
             <i class="fa-solid fa-arrow-left"></i>
@@ -60,35 +61,52 @@
     </EditForm>
 </div>
 
-
 @code{
-    private string erreurMessage="";
-    [CascadingParameter]
-    private EditContext? editContext{get;set;}
-    [SupplyParameterFromForm(FormName = "CreateBookForm")]
-    private CreateBookDto book {get;set;} = new();
-    private List<ResultCategoryDto> categories=[];
+    private string erreurMessage=string.Empty;
+    [Parameter]public  int bookId{get;set;}
+    [CascadingParameter]private EditContext? editContext{get;set;}
+    [SupplyParameterFromForm(FormName = "UpdateBookForm")]
+    private UpdateBookDto book {get;set;}=new();
+    private List<ResultCategoryDto> categories = [];
     protected override async Task OnInitializedAsync()
     {
-        categories = await _manager.CategoryService.GetAllCategoriesAsync();
-    }
-    private async Task CreateBookAsync()
-    {
-        var response=await _manager.BookService.AddBookAsync(book);
-        if (!response.IsSuccessStatusCode){
-            erreurMessage = "une erreur s'est produite lors de l'ajout du livre.";
-            return;
-        }
-        _navigationManager.NavigateTo("/admin/books");
+        categories=await _manager.CategoryService.GetAllCategoriesAsync();
+        await GetEditBookAsync(bookId);
         
+    }
+    private async Task GetEditBookAsync(int id)
+    {
+       var bookresult = await _manager.BookService.GetBookAsync(id);
+        if (bookresult != null)
+        {
+            book.Id = bookresult.Id;
+            book.Name = bookresult.Name;
+            book.Price = bookresult.Price;
+            book.Stock = bookresult.Stock;
+            book.CategoryId = bookresult.Category.CategoryId; 
+        }else erreurMessage = "Kitap bulunamadı.";
+    }
+    private async Task EditBookAsync()
+    {
+        if (book != null)
+        {
+            var result = await _manager.BookService.EditBookAsync(book);
+            if (result != null)
+            {
+                _navigationManager.NavigateTo("/admin/books");
+            }
+            else
+            {
+                erreurMessage = "Kitap güncellenemedi.";
+            }
+        }
     }
     private string GetInputClass(string fieldName)
     {
         if (editContext == null) return "form-control form-input";
         // Check if the field is valid
-        var fieldIdentifier = new FieldIdentifier(book, fieldName);
+        var fieldIdentifier = new FieldIdentifier(book!, fieldName);
         var isInvalid = editContext?.GetValidationMessages(fieldIdentifier).Any() == true;
         return isInvalid ? "form-control form-input invalid" : " form-control form-input";
     }
-}    
-    
+}
