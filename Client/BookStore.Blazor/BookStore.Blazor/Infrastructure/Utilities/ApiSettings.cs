@@ -1,4 +1,4 @@
-namespace Utilities;
+namespace BookStore.Blazor.Infrastructure.Utilities;
 public class ApiSettings
 {
     public string? BaseUrl { get; set; }

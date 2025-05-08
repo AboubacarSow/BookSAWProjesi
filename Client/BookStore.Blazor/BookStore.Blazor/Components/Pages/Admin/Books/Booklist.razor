@@ -1,6 +1,9 @@
 @page "/admin/books"
 @using Syncfusion.Blazor.Buttons
+@rendermode InteractiveServer
 @inject IServiceManager _manager
+@implements IDisposable
+@inject BookStateService _bookStateService
 
 <PageTitle>Kitaplar</PageTitle>  
 
@@ -25,11 +28,11 @@ else{
                 @erreurMessage
             </div>
         }
-        @if(!string.IsNullOrEmpty(successMessage))
+        @if(!string.IsNullOrEmpty(_bookStateService.SuccessMessage))
         {
             <div class="alert alert-success" role="alert">
                 <i class="fa-solid fa-circle-check"></i>
-                @successMessage
+                @_bookStateService.SuccessMessage
             </div>
         }
        
@@ -67,6 +70,9 @@ else{
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        count = 0;
+                    }
                     @foreach(var book in books)
                     {
                         count++;
@@ -78,7 +84,7 @@ else{
                             <td>@book.Category.CategoryName</td>
                             <td>
                                 <div>
-                                    <button class="btn btn-danger" @onclick="PrintHelloworld">
+                                    <button class="btn btn-danger" @onclick="() => Delete(book.Id)">
                                         <i class="fa fa-trash me-1"></i> Sil
                                     </button>
                                     <a href="admin/editBook/@book.Id" class="btn btn-success" >
@@ -98,27 +104,55 @@ else{
 @code{
     private string erreurMessage=string.Empty;
     private string successMessage=string.Empty;
-    private int count=0;
+    private int bookId{get;set;}
+    private int count{get;set;}
     private List<ResultBookDto>? books;
-    protected override async Task  OnInitializedAsync()
+
+    protected async override Task OnInitializedAsync()
     {
-        books = await _manager.BookService.GetAllBooksAsync();
+        if(!_bookStateService.Books.Any())
+        {
+            await GetAllBooks();  
+        }
+        else
+        {
+            books = _bookStateService.Books;
+        }
+        _bookStateService.OnBooksChanged += StateHasChanged;
+    }
+    protected override void OnParametersSet()
+    {
+        if (_bookStateService.Books != null && _bookStateService.Books.Count > 0)
+        {
+            count = 0;
+            books = _bookStateService.Books;
+        }
+    }
+    public void Dispose()
+    {
+        _bookStateService.OnBooksChanged -= StateHasChanged;
+    }
+    private async Task GetAllBooks()
+    {
+        books=await _manager.BookService.GetAllBooksAsync();
+        _bookStateService.SetBooks(books);
     }
     private async Task Delete(int id)
     {
        
-            //var result = await _manager.BookService.DeleteBookAsync(id);
-            //var response= result.IsSuccessStatusCode;
-            
-            successMessage = $"Simulation de la suppression. Book ID: {id} supprimé avec succès.";
-            //books = await _manager.BookService.GetAllBooksAsync();
-            await Task.Delay(500);
-            StateHasChanged();
+            var result = await _manager.BookService.DeleteBookAsync(id);
+            var response= result.IsSuccessStatusCode;
+            if (response)
+            {
+                _bookStateService.RemoveBook(id);
+                books = _bookStateService.Books;
+            }
+            else
+            {
+                erreurMessage = "Kitap silinemedi.";
+            }
+           
     }
-    private void PrintHelloworld()
-    {
-        successMessage = "Hello World!";
-        StateHasChanged();
-    }
+    
     
 }

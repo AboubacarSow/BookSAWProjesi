@@ -1,4 +1,4 @@
-namespace Utilities;
+namespace BookStore.Blazor.Infrastructure.Utilities;
 public class ResponseDetails
 {
     public bool IsSuccessed { get; set; }

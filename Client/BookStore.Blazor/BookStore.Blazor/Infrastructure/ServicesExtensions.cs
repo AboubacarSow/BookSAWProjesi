@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
+using BookStore.Blazor.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Utilities;
 namespace BookStore.Blazor.Infrastructure;
 public static class ServicesExtensions
 {

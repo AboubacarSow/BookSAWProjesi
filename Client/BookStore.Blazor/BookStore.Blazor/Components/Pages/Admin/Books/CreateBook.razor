@@ -1,9 +1,10 @@
 @page "/admin/createBook"
-@using System.Diagnostics;
 @inject IServiceManager _manager
-@inject IServiceProvider _serviceProvider
 @inject NavigationManager _navigationManager
+@inject BookStateService _bookStateService
 @rendermode InteractiveServer
+
+
 <PageTitle>Yeni Kitap Ekle</PageTitle>
 
 <div class="form-container mx-3">
@@ -79,6 +80,13 @@
             erreurMessage = "une erreur s'est produite lors de l'ajout du livre.";
             return;
         }
+        _bookStateService.AddBook(new ResultBookDto
+        {
+            Name = book.Name,
+            Price = book.Price,
+            Stock = book.Stock,
+            Category = await  _manager.CategoryService.GetCategoryAsync(book.CategoryId)
+        });
         _navigationManager.NavigateTo("/admin/books");
         
     }

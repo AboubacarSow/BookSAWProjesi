@@ -1,7 +1,8 @@
 using BookStore.Blazor.Contracts;
+using BookStore.Blazor.Infrastructure.Utilities;
 using Services;
 
-namespace DependencyInjection;
+namespace BookStore.Blazor.DependencyInjection;
 
 public static class RegistrationServices
 {
@@ -10,5 +11,6 @@ public static class RegistrationServices
         services.AddScoped<IServiceManager, ServiceManager>();
         services.AddScoped<IBookService, BookManager>();
         services.AddScoped<ICategoryService, CategoryManager>();  
+        services.AddScoped<BookStateService>();
     }
 }

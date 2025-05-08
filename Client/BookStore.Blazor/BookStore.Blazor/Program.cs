@@ -1,7 +1,6 @@
-using BookStore.Blazor.Client.Pages;
 using BookStore.Blazor.Components;
+using BookStore.Blazor.DependencyInjection;
 using BookStore.Blazor.Infrastructure;
-using DependencyInjection;
 using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
