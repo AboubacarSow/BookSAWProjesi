@@ -71,7 +71,7 @@
     private List<ResultCategoryDto> categories=[];
     protected override async Task OnInitializedAsync()
     {
-        categories = await _manager.CategoryService.GetAllCategoriesAsync();
+       categories = await _manager.CategoryService.GetAllCategoriesAsync();
     }
     private async Task CreateBookAsync()
     {
