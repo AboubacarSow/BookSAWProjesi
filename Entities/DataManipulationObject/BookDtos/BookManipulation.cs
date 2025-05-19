@@ -12,5 +12,6 @@ namespace Entities.DataManipulationObject.ProductDtos
         public decimal Price { get; init; }
         [Required(ErrorMessage ="Product Stock must be provided")]
         public int Stock { get; init; }
+        public string ImageUrl { get; set; }
     }
 }
