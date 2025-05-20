@@ -11,8 +11,8 @@ using Repositories.EFCore.Context;
 namespace Repositories.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250418185319_UpdateBook")]
-    partial class UpdateBook
+    [Migration("20250520214717_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,9 @@ namespace Repositories.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.14")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -31,6 +34,21 @@ namespace Repositories.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -44,12 +62,18 @@ namespace Repositories.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            Author = "Amadou Kourouma",
+                            CategoryId = 2,
+                            Description = "Ce livre decrit la vie d'un jeune ambitieux qui a fini par arrêter les études",
+                            ImageUrl = "eowjel",
                             Name = "Frasques d'Ebinto",
                             Price = 300m,
                             Stock = 45
@@ -57,6 +81,10 @@ namespace Repositories.Migrations
                         new
                         {
                             Id = 2,
+                            Author = "Amadou Kourouma",
+                            CategoryId = 2,
+                            Description = "Les Soleils des indépendances est le premier ouvrage écrit par Ahmadou Kourouma. Il a été édité en 1968, aux Presses de l'Université de Montréal puis aux Éditions du Seuil en 1970.",
+                            ImageUrl = "sowejr",
                             Name = "Soleil des Independances",
                             Price = 500m,
                             Stock = 20
@@ -64,6 +92,10 @@ namespace Repositories.Migrations
                         new
                         {
                             Id = 3,
+                            Author = "Thierno Monenombo",
+                            CategoryId = 5,
+                            Description = "Crapeaux brousses retracent le comportement adopté par certains intellectuels dans la periode des indepandances",
+                            ImageUrl = "soeis",
                             Name = "Les Crapeaux Brousses",
                             Price = 550m,
                             Stock = 25
@@ -112,6 +144,22 @@ namespace Repositories.Migrations
                             CategoryId = 5,
                             CategoryName = "Felsefe Kitabı"
                         });
+                });
+
+            modelBuilder.Entity("Entities.Models.Book", b =>
+                {
+                    b.HasOne("Entities.Models.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Entities.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

@@ -27,6 +27,11 @@ namespace Repositories.EFCore.Models
             return PagedList<Book>.ToPagedList(source, bookParameters.PageNumber, bookParameters.PageSize);
         }
 
+        public async Task<List<Book>> GetBannerBooksAsync(bool trackChanges)
+        {
+            return await FindByCondition(p=>p.IsBanner.Equals(true),trackChanges).ToListAsync();
+        }
+
         public async Task<Book>? GetOneBookByIdAsync(int id, bool trackChanges) =>
             await FindByCondition(p => p.Id.Equals(id), trackChanges).FirstOrDefaultAsync();
 

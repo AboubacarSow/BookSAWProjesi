@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities.DataManipulationObject.BookDtos;
 using Entities.DataManipulationObject.ProductDtos;
 using Entities.Exceptions.CategoryExceptions;
 using Entities.Exceptions.ProductExceptions;
@@ -98,6 +99,12 @@ namespace Services.Models
         {
             _mapper.Map(bookDto, book);
             await _manager.SavesChangesAsync();
+        }
+
+        public async Task<List<BookBannerDto>> GetAllBookBannerAsync(bool trackChanges)
+        {
+            var books = await _manager.Book.GetBannerBooksAsync(trackChanges);
+            return _mapper.Map<List<BookBannerDto>>(books);
         }
     }
 }

@@ -47,6 +47,9 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsBanner")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -71,6 +74,7 @@ namespace Repositories.Migrations
                             CategoryId = 2,
                             Description = "Ce livre decrit la vie d'un jeune ambitieux qui a fini par arrêter les études",
                             ImageUrl = "eowjel",
+                            IsBanner = true,
                             Name = "Frasques d'Ebinto",
                             Price = 300m,
                             Stock = 45
@@ -82,6 +86,7 @@ namespace Repositories.Migrations
                             CategoryId = 2,
                             Description = "Les Soleils des indépendances est le premier ouvrage écrit par Ahmadou Kourouma. Il a été édité en 1968, aux Presses de l'Université de Montréal puis aux Éditions du Seuil en 1970.",
                             ImageUrl = "sowejr",
+                            IsBanner = true,
                             Name = "Soleil des Independances",
                             Price = 500m,
                             Stock = 20
@@ -93,6 +98,7 @@ namespace Repositories.Migrations
                             CategoryId = 5,
                             Description = "Crapeaux brousses retracent le comportement adopté par certains intellectuels dans la periode des indepandances",
                             ImageUrl = "soeis",
+                            IsBanner = true,
                             Name = "Les Crapeaux Brousses",
                             Price = 550m,
                             Stock = 25

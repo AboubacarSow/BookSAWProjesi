@@ -12,14 +12,10 @@ namespace Presentation.Controllers
     [ApiController]
     [Route("api/books")]
     [ServiceFilter(typeof(LogFilterAttribute))]
-    public class BooksController : ControllerBase
+    public class BooksController(IServiceManager service) : ControllerBase
     {
-        private readonly IServiceManager _service;
+        private readonly IServiceManager _service = service;
 
-        public BooksController(IServiceManager service)
-        {
-            _service = service;
-        }
         [HttpGet]
         public async Task<IActionResult> GetAllBooks([FromQuery]BookParameters bookParameters)
         {
@@ -27,6 +23,12 @@ namespace Presentation.Controllers
             Response.Headers["X-Pagination"] = JsonSerializer.Serialize(metaData);
             
             return Ok(bookDtos);
+        }
+
+        [HttpGet("banners")]
+        public IActionResult GetBookBanners()
+        {
+            return Ok(_service.BookService.GetAllBookBannerAsync(false));
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneBook([FromRoute]int id)
@@ -65,7 +67,8 @@ namespace Presentation.Controllers
             if (bookPatch is null)
                 throw new BookBadRequestException("The given item is null");
             var (bookUpdateDto, book) = await _service.BookService.GetOneBookForPatchAsync(id, true);
-            bookPatch.ApplyTo(bookUpdateDto,ModelState);//Pour que ModelState soit accepter comme second parametre il nous le package NewtonsoftJson
+            //Pour que ModelState soit accepter comme second parametre il nous faut le package le package NewtonsoftJson
+            bookPatch.ApplyTo(bookUpdateDto,ModelState);
             TryValidateModel(bookUpdateDto);
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
@@ -77,7 +80,7 @@ namespace Presentation.Controllers
         [HttpOptions]
         public IActionResult GetOptions()
         {
-            Response.Headers["Allow"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
+            Response.Headers.Allow = "GET,POST,PUT,PATCH,DELETE,OPTIONS";
             return Ok();
         }
 

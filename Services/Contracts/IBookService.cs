@@ -1,4 +1,5 @@
-﻿using Entities.DataManipulationObject.ProductDtos;
+﻿using Entities.DataManipulationObject.BookDtos;
+using Entities.DataManipulationObject.ProductDtos;
 using Entities.Models;
 using Entities.RequestFeatures;
 
@@ -12,6 +13,7 @@ namespace Services.Contracts
         Task<ResultBookDto> UpdateOneBookAsync(int Id, UpdateBookDto productDto, bool trackChanges);
         Task DeleteOneBookAsync(int id, bool trackChanges);
 
+        Task<List<BookBannerDto>> GetAllBookBannerAsync(bool trackChanges);
         Task<(UpdateBookDto updateBookDto,Book book)> GetOneBookForPatchAsync(int id,bool trackChanges);
 
         Task SaveChangesForPathAsync(UpdateBookDto bookDto, Book book);
