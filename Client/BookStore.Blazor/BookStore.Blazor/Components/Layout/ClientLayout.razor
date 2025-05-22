@@ -1,6 +1,7 @@
 @inherits LayoutComponentBase
-
+@inject IJSRuntime JS
 <HeadContent>
+	<link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> 
     <link rel="stylesheet" type="text/css" href="/booksaw/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/booksaw/icomoon/icomoon.css">
 	<link rel="stylesheet" type="text/css" href="/booksaw/css/vendor.css">
@@ -10,3 +11,30 @@
 <div>
     @Body
 </div>
+
+
+@code{
+	protected override async Task OnAfterRenderAsync(bool firsRender)
+	{
+		if(firsRender)
+			await LoadScriptAsync();
+		
+	}
+	private async Task LoadScriptAsync()
+	{
+		var tasks= new List<Task>();
+		var scripts =new List<string>{"/booksaw/js/jquery-1.11.0.min.js","/booksaw/js/plugins.js","/booksaw/js/script.js"};
+		foreach(var script in scripts)
+		{
+			tasks.Add( JS.InvokeVoidAsync("eval", 
+                    $"new Promise((resolve) => {{ " +
+                    $"  const s = document.createElement('script'); " +
+                    $"  s.src = '{script}'; " +
+                    $"  s.onload = resolve; " +
+                    $"  document.body.appendChild(s); " +
+                    $"}})").AsTask());
+		}
+		await Task.WhenAll(tasks);
+		await JS.InvokeVoidAsync("console.log","Script is load successfully");
+	}
+}

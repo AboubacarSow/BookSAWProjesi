@@ -1,5 +1,4 @@
 ﻿using DTOs.BookDtos;
-
 namespace BookStore.Blazor.Contracts;
 public interface IBookService
 {
@@ -8,5 +7,6 @@ public interface IBookService
         Task<HttpResponseMessage> AddBookAsync(CreateBookDto bookdto);
         Task<HttpResponseMessage> EditBookAsync(UpdateBookDto bookdto);
         Task<HttpResponseMessage> DeleteBookAsync(int id);
+        Task<List<BannerBookDto>> GetBannerBookDtosAsync();
 }
 

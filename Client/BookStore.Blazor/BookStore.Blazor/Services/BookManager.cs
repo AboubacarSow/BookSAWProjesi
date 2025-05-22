@@ -42,6 +42,14 @@ public class BookManager(IHttpClientFactory httpClientFactory) : IBookService
         return JsonConvert.DeserializeObject<List<ResultBookDto>>(jsonData) ?? new List<ResultBookDto>();
         
     }
+    public async Task<List<BannerBookDto>> GetBannerBookDtosAsync()
+    {
+        var response = await _httpClient.GetAsync("books/banners");
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound) return [];
+        var jsonData = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<BannerBookDto>>(jsonData)!;
+    }
+
     public async Task<ResultBookDto> GetBookAsync(int id)
     {
        var response = await _httpClient.GetAsync($"books/{id}");
