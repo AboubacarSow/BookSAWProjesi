@@ -16,9 +16,11 @@
 @code{
 	protected override async Task OnAfterRenderAsync(bool firsRender)
 	{
-		if(firsRender)
+		if(firsRender){
 			await LoadScriptAsync();
-		
+			await JS.InvokeVoidAsync("eval","AOS.init();");
+		}
+		await JS.InvokeVoidAsync("console.log","Script is load successfully");
 	}
 	private async Task LoadScriptAsync()
 	{
@@ -35,6 +37,5 @@
                     $"}})").AsTask());
 		}
 		await Task.WhenAll(tasks);
-		await JS.InvokeVoidAsync("console.log","Script is load successfully");
 	}
 }

@@ -23,9 +23,9 @@ namespace WebApi
                                 config.RespectBrowserAcceptHeader = true;
                                 config.ReturnHttpNotAcceptable = true;
                             })
+                            .AddNewtonsoftJson()
                             .AddXmlSerializerFormatters()// record don't like AddXmlDataContractSerializerFormatters
-                            .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
-                            .AddNewtonsoftJson();
+                            .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
             builder.Services.ConfigureRepositoryContext(builder.Configuration);
             builder.Services.ConfigureAutoMapper();
             builder.Services.ConfigureLoggerManager();

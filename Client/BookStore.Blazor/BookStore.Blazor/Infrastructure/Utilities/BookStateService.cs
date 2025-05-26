@@ -43,6 +43,8 @@ public class BookStateService
         if (index != -1)
         {
             _books[index] = book;
+            var msg = $"Kitap {book.Name} başarıyla güncellenmiştir.";
+            SetSuccessMessage(msg);
             OnBooksChanged?.Invoke();
         }
     }

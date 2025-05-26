@@ -56,7 +56,7 @@ namespace Services.Models
             var model = await _manager.Book.GetOneBookByIdAsync(id, trackChanges)!;
             if(model is null)
             {
-                string msg = "Book with id:" + id +"not found";
+                string msg = "Book with id:" + id +" is not found";
                 _logger.LogInfo(msg);
                 throw new BookNotFoundException(id.ToString());
             }
@@ -75,7 +75,6 @@ namespace Services.Models
         {
             return _mapper.Map<ResultBookDto>(await GetOneBookAndCheckExistAsync(id, trackChanges));
         }
-
         public async Task<ResultBookDto> UpdateOneBookAsync(int Id, UpdateBookDto bookDto, bool trackChanges)
         {
             await GetOneBookAndCheckExistAsync(Id, trackChanges);
@@ -104,6 +103,7 @@ namespace Services.Models
         public async Task<List<BookBannerDto>> GetAllBookBannerAsync(bool trackChanges)
         {
             var books = await _manager.Book.GetBannerBooksAsync(trackChanges);
+           
             return _mapper.Map<List<BookBannerDto>>(books);
         }
     }

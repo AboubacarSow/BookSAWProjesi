@@ -1,9 +1,9 @@
 ﻿namespace DTOs.CategoryDtos
 {
-    public record ResultCategoryDto
+    public class ResultCategoryDto
     {
-        public int CategoryId { get; init; }
-        public string CategoryName { get; init; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 
 

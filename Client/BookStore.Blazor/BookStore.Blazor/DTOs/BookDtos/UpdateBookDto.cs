@@ -3,7 +3,7 @@
 namespace DTOs.BookDtos;
 
 public class UpdateBookDto
- {
+{
     public int Id { get; set; }
     [Required(ErrorMessage = "Kitap adı gereklidir")]
     [MinLength(5, ErrorMessage = "Kitap adı en az 5 karakter içermelidir")]
@@ -19,6 +19,9 @@ public class UpdateBookDto
     public int Stock { get; set; }
     [Range(1, int.MaxValue, ErrorMessage = "Kategori seçiniz.")]
     public int CategoryId { get; set; }
+    public string? Description { get; set; } = string.Empty;
+    public string? ImageUrl { get; set; } = string.Empty;
+    public string ? Author { get; set; } = string.Empty;
 }
    
 

@@ -29,7 +29,7 @@ namespace Repositories.EFCore.Models
 
         public async Task<List<Book>> GetBannerBooksAsync(bool trackChanges)
         {
-            return await FindByCondition(p=>p.IsBanner.Equals(true),trackChanges).ToListAsync();
+            return await FindByCondition(p=>p.IsBanner==true,trackChanges).ToListAsync();
         }
 
         public async Task<Book>? GetOneBookByIdAsync(int id, bool trackChanges) =>

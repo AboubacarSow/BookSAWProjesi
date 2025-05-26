@@ -49,6 +49,25 @@
             id="bookStok" placeholder="Stok girin" @bind-Value="book.Stock" />
             <span class="text-danger"><ValidationMessage For="@(() => book.Stock)" /></span>
         </div>
+        <div class="mb-3 form-div">
+            <label for="bookDescription" class="form-label">Açıklama</label>
+            <InputTextArea class="@GetInputClass(nameof(book.Description))"
+            id="bookDescription" placeholder="Açıklama girin" @bind-Value="book.Description" />
+            <ValidationMessage For="@(() => book.Description)" class="text-danger" />
+        </div>
+
+        <div class="mb-3 form-div">
+            <label for="bookImage" class="form-label">Resim</label>
+            <InputText id="bookImage" class="@GetInputClass(nameof(book.ImageUrl))"
+            placeholder="Resim girin" @bind-Value="book.ImageUrl" />
+            <ValidationMessage For="@(() => book.ImageUrl)" class="text-danger" />
+        </div>
+        <div class="mb-3 form-div">
+            <label for="author" class="form-label">Author</label>
+            <InputText id="author" class="@GetInputClass(nameof(book.Author))"
+            placeholder="Yazar girin" @bind-Value="book.Author" />
+            <ValidationMessage For="@(() => book.Author)" class="text-danger" />
+        </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-success">
                 <i class="fa-solid fa-edit"></i>
@@ -84,6 +103,9 @@
             book.Name = bookresult.Name;
             book.Price = bookresult.Price;
             book.Stock = bookresult.Stock;
+            book.ImageUrl = bookresult.ImageUrl;
+            book.Description = bookresult.Description;
+            book.Author = bookresult.Author;
             book.CategoryId = bookresult.Category.CategoryId; 
         }else erreurMessage = "Kitap bulunamadı.";
     }
@@ -100,6 +122,7 @@
                     Name=book.Name,
                     Stock=book.Stock,
                     Price=book.Price,
+                    ImageUrl=book.ImageUrl,
                     Category=await _manager.CategoryService.GetCategoryAsync(book.CategoryId)
                 });
                

@@ -62,10 +62,10 @@ else{
                 <thead class="rounded-3 table-header">
                     <tr>
                         <th>N°</th>
+                        <th>Resim</th>
                         <th>Ad</th>
                         <th>Fıyat</th>
                         <th>Stok</th>
-                        <th>Kategori</th>
                         <th>İşlemler</th>
                     </tr>
                 </thead>
@@ -78,10 +78,10 @@ else{
                         count++;
                         <tr class="text-nowrap">
                             <td>@count</td>
+                            <td><img src="@book.ImageUrl" style="width:25px;height:25px;border-radius:50%" /></td>
                             <td>@book.Name</td>
                             <td>@book.Price</td>
                             <td>@book.Stock</td>
-                            <td>@book.Category.CategoryName</td>
                             <td>
                                 <div>
                                     <button class="btn btn-danger" @onclick="() => Delete(book.Id)">

@@ -1,5 +1,10 @@
 ﻿namespace DTOs.CategoryDtos
 {
-    public record CategoryForUpdateDto(int CategoryId,string CategoryName);
+    public class CategoryForUpdateDto 
+    {
+        public int CategoryId {  get; set; }
+        public string CategoryName { get; set; } = string.Empty;
+    }
+
    
 }

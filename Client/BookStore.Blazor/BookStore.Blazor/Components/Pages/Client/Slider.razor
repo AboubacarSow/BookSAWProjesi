@@ -1,50 +1,52 @@
 @inject IServiceManager _manager
 @rendermode InteractiveServer
 
-<section id="billboard">
+<section id="billboard" class="pt-2">
 
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-
-				<button class="prev slick-arrow">
-					<i class="icon icon-arrow-left"></i>
-				</button>
-
-				<div class="main-slider pattern-overlay">
-					@foreach(var banner in _banners)
-					{
-						<div class="slider-item">
-							<div class="banner-content">
-								<h2 class="banner-title">@banner.Name</h2>
-								<p>@banner.Description</p>
-								<div class="btn-wrap">
-									<a href="#" class="btn btn-outline-accent btn-accent-arrow">Read More<i
-											class="icon icon-ns-arrow-right"></i></a>
-								</div>
-							</div><!--banner-content-->
-							<img src="@banner.ImageUrl" alt="banner" class="banner-image">
-						</div><!--slider-item-->
-					}
-
+		<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				@foreach (var banner in _banners)
+				{
+					<div class="carousel-item @(banner == _banners.First() ? "active" : "")">
+						<div class="row gap-2">
+							<div class="col-6">
+								<div class="banner-content">
+									<h2 class="banner-title">@banner.Name</h2>
+									<p>@banner.Description</p>
+									<div class="btn-wrap">
+										<a href="#" class="btn btn-outline-accent btn-accent-arrow">Read More<i
+												class="icon icon-ns-arrow-right"></i></a>
+									</div>
+								</div><!--banner-content-->
+							</div>
+							<div class="col-4">
+								<img src="@banner.ImageUrl" alt="banner" class="banner-image">
+							</div>
+						</div>
+					</div>
+				}
 				
-
-				</div><!--slider-->
-
-				<button class="next slick-arrow">
-					<i class="icon icon-arrow-right"></i>
-				</button>
-
 			</div>
+			<button class="carousel-control-prev prev slick-arrow ms-0" type="button" data-bs-target="#carouselExampleControls"
+				data-bs-slide="prev">
+					<i class="icon icon-arrow-left"></i>
+			</button>
+			<button class="carousel-control-next next slick-arrow" type="button" data-bs-target="#carouselExampleControls"
+				data-bs-slide="next">
+				<i class="icon icon-arrow-right"></i>
+			</button>
 		</div>
+		
+	
 	</div>
 
 </section>
 
-@code{
-	private List<BannerBookDto> _banners=[];
+@code {
+	private List<BannerBookDto> _banners = [];
 	protected override async Task OnInitializedAsync()
 	{
-		_banners=await _manager.BookService.GetBannerBookDtosAsync();
+		_banners = await _manager.BookService.GetBannerBookDtosAsync();
 	}
 }

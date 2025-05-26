@@ -12,5 +12,6 @@ public static class RegistrationServices
         services.AddScoped<IBookService, BookManager>();
         services.AddScoped<ICategoryService, CategoryManager>();  
         services.AddScoped<BookStateService>();
+        services.AddScoped<CategoryStateService>();
     }
 }

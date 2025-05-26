@@ -9,6 +9,8 @@ namespace Entities.DataManipulationObject.ProductDtos
         public decimal Price { get; init; }
         public int Stock { get; init; }
         public string ImageUrl { get; init; }
+        public string Author { get; init; }
+        public string Description { get; init; }    
         public ResultCategoryDto Category { get; init; }
     }
 

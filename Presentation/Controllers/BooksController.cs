@@ -26,9 +26,9 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("banners")]
-        public IActionResult GetBookBanners()
+        public async Task<IActionResult> GetBookBannersAsync()
         {
-            return Ok(_service.BookService.GetAllBookBannerAsync(false));
+            return Ok(await _service.BookService.GetAllBookBannerAsync(false));
         }
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetOneBook([FromRoute]int id)

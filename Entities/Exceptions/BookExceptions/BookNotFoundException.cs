@@ -3,7 +3,7 @@
     public class BookNotFoundException : NotFoundException
     {
         public BookNotFoundException(string id) :
-            base($"Product with Id: {id} is not found")
+            base($"Book with Id: {id} is not found")
         {
         }
     }

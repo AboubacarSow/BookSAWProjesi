@@ -48,6 +48,25 @@
              id="bookStok" placeholder="Stok girin" @bind-Value="book.Stock" />
             <span class="text-danger"><ValidationMessage For="@(() => book.Stock)" /></span>
         </div>
+        <div class="mb-3 form-div">
+            <label for="bookDescription" class="form-label">Açıklama</label>
+            <InputTextArea class="@GetInputClass(nameof(book.Description))"
+             id="bookDescription" placeholder="Açıklama girin" @bind-Value="book.Description" />
+            <ValidationMessage For="@(() => book.Description)" class="text-danger" />
+        </div>
+
+        <div class="mb-3 form-div">
+            <label for="bookImage" class="form-label">Resim</label>
+            <InputText id="bookImage" class="@GetInputClass(nameof(book.ImageUrl))" 
+            placeholder="Resim girin" @bind-Value="book.ImageUrl"/>
+            <ValidationMessage For="@(() => book.ImageUrl)" class="text-danger" />
+        </div>
+        <div class="mb-3 form-div">
+            <label for="author" class="form-label">Author</label>
+            <InputText id="author" class="@GetInputClass(nameof(book.Author))"
+             placeholder="Yazar girin" @bind-Value="book.Author" />
+            <ValidationMessage For="@(() => book.Author)" class="text-danger" />
+        </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">
                 <i class="fa-solid fa-plus"></i>
@@ -85,6 +104,7 @@
             Name = book.Name,
             Price = book.Price,
             Stock = book.Stock,
+            ImageUrl = book.ImageUrl!,
             Category = await  _manager.CategoryService.GetCategoryAsync(book.CategoryId)
         });
         _navigationManager.NavigateTo("/admin/books");
