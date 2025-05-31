@@ -31,6 +31,7 @@ namespace WebApi.Infrastructure.Extensions
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<IBookService, BookManager>();
+            services.AddScoped<ISubscriberService, SubscriberManager>();
         }
         public static void ConfigureRepositoryManager(this IServiceCollection services)
         {

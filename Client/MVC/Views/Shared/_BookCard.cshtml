@@ -1,0 +1,19 @@
+﻿@model ResultBookDto
+<div class="col-md-3">
+	<div class="product-item">
+		<figure class="product-style">
+			<img src="@Model.ImageUrl" alt="Books" class="product-item">
+			<button type="button" class="add-to-cart" data-product-tile="add-to-cart"
+					data-bs-toggle="modal" data-bs-target="#book-@Model.Id">
+				Daha Fazla Gör
+			</button>
+		</figure>
+		<figcaption>
+			<h3>@Model.Name</h3>
+			<span>@Model.Author</span>
+			<div class="item-price">
+				<div class="item-price">₺ @Model.Price</div>
+			</div>
+		</figcaption>
+	</div>
+</div>

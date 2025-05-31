@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+|<!-- Banner Start-->
+@await Component.InvokeAsync("Banner");
+|<!-- Banner End-->
+<section id="client-holder" data-aos="fade-up">
+	<div class="container">
+		<div class="row">
+			<div class="inner-content">
+				<div class="logo-wrap">
+					<div class="grid">
+						<a href="#"><img src="~/booksaw/images/client-image1.png" alt="client"></a>
+						<a href="#"><img src="~/booksaw/images/client-image2.png" alt="client"></a>
+						<a href="#"><img src="~/booksaw/images/client-image3.png" alt="client"></a>
+						<a href="#"><img src="~/booksaw/images/client-image4.png" alt="client"></a>
+						<a href="#"><img src="~/booksaw/images/client-image5.png" alt="client"></a>
+					</div>
+				</div><!--image-holder-->
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Feature Start-->
+@await Component.InvokeAsync("Feature")
+<!-- Feature End-->
+<!-- Best Selling Start-->
+@await Component.InvokeAsync("BestSelling")
+<!-- Best Selling End-->
+<!-- Popular Books Start-->
+@await Component.InvokeAsync("Popular")
+<!-- Popular Books End-->
+<section id="quotation" class="align-center pb-5 mb-5">
+	<div class="inner-content">
+		<h2 class="section-title divider">Günün Sözü</h2>
+		<blockquote data-aos="fade-up">
+			<q>
+				“Ne kadar çok okursan, o kadar çok şey bilirsin. Ne kadar çok öğrenirsen, o kadar çok yere gidersin.”
+			</q>
+			<div class="author-name">Doç. Seuss</div>
+		</blockquote>
+	</div>
+</section>
+@await Component.InvokeAsync("Subscribe")
+

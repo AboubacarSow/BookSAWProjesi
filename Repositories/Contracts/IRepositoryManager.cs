@@ -4,6 +4,7 @@
     {
         ICategoryRepository Category { get; }
         IBookRepository Book { get; }
+        ISubscriberRepository Subscriber { get; }
         Task SavesChangesAsync();
     }
 }

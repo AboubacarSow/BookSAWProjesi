@@ -4,5 +4,6 @@
     {
         ICategoryService CategoryService { get; }
         IBookService BookService { get; }
+        ISubscriberService SubscriberService { get; }
     }
 }

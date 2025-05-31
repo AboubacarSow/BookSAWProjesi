@@ -123,6 +123,7 @@
         {
             errorMessage = "An error occured while trying to delete this category";
             StateHasChanged();
+            return;
         }
         _categoryStateService.RemoveCategory(index);
         categories = _categoryStateService.Categories;

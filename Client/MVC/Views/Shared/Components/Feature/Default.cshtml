@@ -1,0 +1,90 @@
+﻿@model List<ResultBookDto>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<section id="featured-books" class="py-5 my-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="section-header align-center">
+					<div class="title">
+						<span>Bazı kaliteli ürünler</span>
+					</div>
+					<h2 class="section-title">Öne Çıkan Kitaplar</h2>
+				</div>
+
+				<div class="product-list" data-aos="fade-up">
+					<div class="row">
+						@foreach(var item in Model)
+						{
+							<div class="col-md-3">
+								<div class="product-item">
+									<figure class="product-style">
+										<img src="@item.ImageUrl" alt="Books" class="product-item">
+										<button type="button" class="add-to-cart" data-product-tile="add-to-cart"
+												data-bs-toggle="modal" data-bs-target="#book-@item.Id">
+											Daha Fazla
+										</button>
+									</figure>
+									<figcaption>
+										<h3>@item.Name</h3>
+										<span>@item.Author</span>
+										<div class="item-price">₺ @item.Price</div>
+									</figcaption>
+								</div>
+							</div>
+						}
+					</div><!--ft-books-slider-->
+				</div><!--grid-->
+
+
+			</div><!--inner-content-->
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="btn-wrap align-right">
+					<a href="#all-genre" class="btn-accent-arrow">
+						Bütünü Gör <i class="icon icon-ns-arrow-right"></i>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+@foreach(var item in Model)
+{
+	<div class="modal fade" id="book-@item.Id" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" style="width:750px">
+			<div class="modal-content">
+				
+				<div class="modal-body">
+					<div class="card rounded-2">
+						<div class="card-header">
+							<h4 class="text-center text-primary">@item.Name</h4>
+							<img src="@item.ImageUrl"  class="rounded-2 w-100" style="height:50%"/>
+						</div>
+						<div class="card-body">
+							<div class="d-flex flex-column">
+								<p>@item.Description</p>
+								<div class="d-flex justify-content-between">
+									<p class="text-warning fw-bolder">@item.Author</p>
+									<p>₺ @item.Price</p>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Kapat</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

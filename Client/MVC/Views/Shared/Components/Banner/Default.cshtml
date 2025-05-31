@@ -1,0 +1,52 @@
+﻿@model List<BannerBookDto>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<section id="billboard">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<button class="prev slick-arrow">
+					<i class="icon icon-arrow-left"></i>
+				</button>
+
+				<div class="main-slider pattern-overlay">
+					@foreach (var item in Model)
+					{
+						<div class="slider-item">
+							<div class="row">
+								<div class="banner-content col-lg-7 col-sm-12">
+									<h2 class="banner-title">@item.Name</h2>
+									<p>
+										@item.Description
+									</p>
+									<div class="btn-wrap">
+										<a href="#all-genre" class="btn btn-outline-accent btn-accent-arrow">
+											Daha Fazla Gör<i class="icon icon-ns-arrow-right"></i>
+										</a>
+									</div>
+								</div><!--banner-content-->
+								<div class="col-lg-5 col-sm-12">
+									<img src="@item.ImageUrl" alt="banner" class="banner-image">
+								</div>
+
+							</div>
+						</div>
+
+						<!--slider-item-->
+					}
+
+				</div><!--slider-->
+
+				<button class="next slick-arrow">
+					<i class="icon icon-arrow-right"></i>
+				</button>
+
+			</div>
+		</div>
+	</div>
+
+</section>
+

@@ -96,7 +96,7 @@
     {
         var response=await _manager.BookService.AddBookAsync(book);
         if (!response.IsSuccessStatusCode){
-            erreurMessage = "une erreur s'est produite lors de l'ajout du livre.";
+            erreurMessage = "An error occured while trying to add this item.";
             return;
         }
         _bookStateService.AddBook(new ResultBookDto

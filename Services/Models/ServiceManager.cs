@@ -6,13 +6,15 @@ namespace Services.Models
     {
         private readonly ICategoryService _categoryService;
         private readonly IBookService _bookService;
-        public ServiceManager(ICategoryService categoryService, IBookService bookService)
+        private readonly ISubscriberService _subscriberService;
+        public ServiceManager(ICategoryService categoryService, IBookService bookService, ISubscriberService subscriberService)
         {
             _categoryService = categoryService;
             _bookService = bookService;
+            _subscriberService = subscriberService;
         }
         public ICategoryService CategoryService => _categoryService;
-
         public IBookService BookService => _bookService;
+        public ISubscriberService SubscriberService => _subscriberService;
     }
 }

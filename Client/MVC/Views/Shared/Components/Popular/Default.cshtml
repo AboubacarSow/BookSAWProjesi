@@ -1,0 +1,87 @@
+﻿@model PopularModelView
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<section id="popular-books" class="bookshelf py-5 my-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="section-header align-center">
+					<div class="title">
+						<span>Bazı kaliteli ürünler</span>
+					</div>
+					<h2 class="section-title">Populer Kitaplar</h2>
+				</div>
+
+				<ul class="tabs">
+					<li data-tab-target="#all-genre" class="active tab">Tüm kategoriler</li>
+					@foreach(var category in Model.Categories)
+					{
+						<li data-tab-target="#@category.CategoryName" class="tab">@category.CategoryName</li>
+
+					}
+				</ul>
+
+				<div class="tab-content">
+					<div id="all-genre" data-tab-content class="active">
+						<div class="row">
+							@foreach(var book in Model.Books)
+							{
+								<partial name="_BookCard" model="@book" />
+							}
+						</div>
+					</div>
+					@foreach(var category in Model.Categories)
+					{
+						<div id="@category.CategoryName" data-tab-content>
+							<div class="row">
+								@foreach(var book in Model.Books.Where(b=>b.Category.CategoryId==category.CategoryId))
+								{
+									<partial name="_BookCard" model="@book"/>
+									
+								}
+							</div>
+						</div>
+					}
+				</div>
+
+			</div><!--inner-tabs-->
+
+		</div>
+	</div>
+</section>
+@foreach (var item in Model.Books)
+{
+	<div class="modal fade" id="book-@item.Id" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" style="width:750px">
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<div class="card rounded-2">
+						<div class="card-header">
+							<h4 class="text-center text-primary">@item.Name</h4>
+							<img src="@item.ImageUrl" class="rounded-2 w-100" style="height:50%" />
+						</div>
+						<div class="card-body">
+							<div class="d-flex flex-column">
+								<p>@item.Description</p>
+								<div class="d-flex justify-content-between">
+									<p class="text-warning fw-bolder">@item.Author</p>
+									<p>₺ @item.Price</p>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<div class="text-center">
+						<button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Kapat</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

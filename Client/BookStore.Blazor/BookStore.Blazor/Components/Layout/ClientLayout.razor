@@ -1,26 +1,48 @@
+
 @inherits LayoutComponentBase
 @inject IJSRuntime JS
 <HeadContent>
 	<link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> 
-    <link rel="stylesheet" type="text/css" href="/booksaw/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/booksaw/css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="/booksaw/icomoon/icomoon.css">
 	<link rel="stylesheet" type="text/css" href="/booksaw/css/vendor.css">
 	<link rel="stylesheet" type="text/css" href="/booksaw/style.css">
 </HeadContent>
 
 <div>
-    @Body
+	<div id="header-wrap">
+		<TopHeader/>
+		<Header/>
+	</div>
+	@Body
 </div>
 
 
 @code{
-	protected override async Task OnAfterRenderAsync(bool firsRender)
+	private IJSObjectReference? module;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if(firsRender){
-			await LoadScriptAsync();
-			await JS.InvokeVoidAsync("eval","AOS.init();");
+		if(firstRender){
+			try
+			{
+				// await JS.InvokeVoidAsync("import", "/booksaw/js/jquery-1.11.0.min.js");
+				// await JS.InvokeVoidAsync("import", "/booksaw/js/plugins.js");
+				// await JS.InvokeVoidAsync("import", "/booksaw/js/script.js");
+				await LoadScriptAsync();
+				module = await JS.InvokeAsync<IJSObjectReference>(
+										"import", "/js/interop.js");
+
+				// Call the initialize function
+				await module.InvokeVoidAsync("blazorHelpers.initialize");
+				await JS.InvokeVoidAsync("console.log", "Script is load successfully");
+			}
+			catch (Exception ex)
+			{
+				await JS.InvokeVoidAsync("console.error", $"something went wrong {ex.Message}");
+			}
+
 		}
-		await JS.InvokeVoidAsync("console.log","Script is load successfully");
 	}
 	private async Task LoadScriptAsync()
 	{
@@ -28,14 +50,19 @@
 		var scripts =new List<string>{"/booksaw/js/jquery-1.11.0.min.js","/booksaw/js/plugins.js","/booksaw/js/script.js"};
 		foreach(var script in scripts)
 		{
-			tasks.Add( JS.InvokeVoidAsync("eval", 
-                    $"new Promise((resolve) => {{ " +
-                    $"  const s = document.createElement('script'); " +
-                    $"  s.src = '{script}'; " +
-                    $"  s.onload = resolve; " +
-                    $"  document.body.appendChild(s); " +
-                    $"}})").AsTask());
+			await LoadAsync(script);
 		}
-		await Task.WhenAll(tasks);
+		
 	}
+	private async Task LoadAsync(string src)
+	{
+		await JS.InvokeVoidAsync("eval",
+			$"new Promise((resolve, reject) => {{" +
+		$"const script = document.createElement('script');" +
+		$"script.src = '{src}';" +
+		$"script.onload = resolve;" +
+		$"script.onerror = reject;" +
+		$"document.head.appendChild(script);}})");
+	}
+	
 }

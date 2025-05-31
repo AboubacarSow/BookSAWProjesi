@@ -84,7 +84,7 @@ else{
                             <td>@book.Stock</td>
                             <td>
                                 <div>
-                                    <button class="btn btn-danger" @onclick="() => Delete(book.Id)">
+                                    <button class="btn btn-danger" @onclick="() => Delete(book.Id, count)">
                                         <i class="fa fa-trash me-1"></i> Sil
                                     </button>
                                     <a href="admin/editBook/@book.Id" class="btn btn-success" >
@@ -137,19 +137,20 @@ else{
         books=await _manager.BookService.GetAllBooksAsync();
         _bookStateService.SetBooks(books);
     }
-    private async Task Delete(int id)
+    private async Task Delete(int id, int index)
     {
        
             var result = await _manager.BookService.DeleteBookAsync(id);
             var response= result.IsSuccessStatusCode;
             if (response)
             {
-                _bookStateService.RemoveBook(id);
+                _bookStateService.RemoveBook(index);
                 books = _bookStateService.Books;
             }
             else
             {
                 erreurMessage = "Kitap silinemedi.";
+                StateHasChanged();
             }
            
     }
