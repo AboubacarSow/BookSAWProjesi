@@ -44,7 +44,7 @@ namespace MVC.Services
         {
             var jsonData=JsonConvert.SerializeObject(createSubscriberDto);
             var content= new StringContent(jsonData,Encoding.UTF8,"application/json");
-            var request = await _httpClient.PostAsJsonAsync("subscribers", content);
+            var request = await _httpClient.PostAsync("subscribers", content);
             return request.IsSuccessStatusCode;
         }
     }

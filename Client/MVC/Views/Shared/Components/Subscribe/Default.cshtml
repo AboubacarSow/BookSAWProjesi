@@ -22,7 +22,7 @@
 							<p>
 								En güncel haberler ve özel içerikler için bültenimize abone olun!
 							</p>
-							<form id="subscribe">
+							<form id="subscribe" method="post">
 								<input type="text" name="email" id="mail" placeholder="Mailiniz Giriniz">
 								<button class="btn-subscribe" id="send-btn">
 									<span>Gönder</span>
@@ -42,23 +42,58 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-
-
-		const Toast = Swal.mixin({
-	  toast: true,
-	  position: "top-end",
-	  showConfirmButton: false,
-	  timer: 3000,
-	  timerProgressBar: true,
-	  didOpen: (toast) => {
-		toast.onmouseenter = Swal.stopTimer;
-		toast.onmouseleave = Swal.resumeTimer;
-	  }
+	
+	document.addEventListener('submit',function(event){
+		event.preventDefault();
+		let formData={
+			Email:document.getElementById('mail').value
+		}
+		let url="/Client/Subscribe";
+		fetch(url,{
+			method:'POST',
+			headers:{
+			   "Content-Type":"application/json",
+			   "Accept": "application/json"},
+			body:JSON.stringify(formData)
+			})
+		.then(response=>response.json())
+		.then(data=>{
+			if(data.success){
+				Swal.mixin({
+						  toast: true,
+						  position: "bottom-end",
+						  showConfirmButton: false,
+						  timer: 3000,
+						  timerProgressBar: true,
+						  didOpen: (toast) => {
+							toast.onmouseenter = Swal.stopTimer;
+							toast.onmouseleave = Swal.resumeTimer}})
+				.fire({
+					icon: "success",
+					title: "Tebrikler. Başarıyla abone olmuşsunuzdur!"})
+				.then(()=>{window.location.reload()})}
+			else{
+				Swal.fire({
+						position:"top-center",
+						title: "İşlem Başarısız!",
+						text: data.message,
+						icon: "error",
+						showConfirmButton: true,
+						timer: 6000
+							});
+			}
+		}).catch(error => {
+					 // Erreur réseau ou autre : afficher un message d'erreur
+					 console.error('Bir hata oluştu',error);
+					 Swal.fire({
+						 position:"top-center",
+						 title: "Error!",
+						 text: "Bir hata oluştu.",
+						 icon: "error",
+						 showConfirmButton: true,
+						 timer:1500
+					 });
+			   });
 	});
-	Toast.fire({
-	  icon: "success",
-	  title: "Signed in successfully"
-	});
-
 
 </script>

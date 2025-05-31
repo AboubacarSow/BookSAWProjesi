@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Entities.DataManipulationObject.SubscriberDtos;
 using Entities.Models;
-using Entities.RequestFeatures;
 using Repositories.Contracts;
 using Services.Contracts;
 

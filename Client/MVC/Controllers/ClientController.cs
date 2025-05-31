@@ -1,7 +1,6 @@
 ﻿using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using MVC.DTOs.SubscriberDtos;
-using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -18,10 +17,10 @@ namespace MVC.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Subscribe(CreateSubscriberDto subscriber)
+        public async Task<IActionResult> Subscribe([FromBody]CreateSubscriberDto subscriber)
         {
-            await _service.SubscriberService.Subscribe(subscriber);
-            return Json(new {success= true});   
+            var result=await _service.SubscriberService.Subscribe(subscriber);
+            return result? Json(new {success=true}) : Json(new {success=false});
         }
     }
 }
