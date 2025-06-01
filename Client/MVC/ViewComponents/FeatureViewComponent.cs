@@ -12,7 +12,7 @@ namespace MVC.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var books = (await _manager.BookService.GetAllBooksAsync())
+            var books = (await _manager.BookService.GetAllBooksAsync()).OrderByDescending(x=>x.Id)
                 .Take(4)
                 .ToList();
             return View(books);

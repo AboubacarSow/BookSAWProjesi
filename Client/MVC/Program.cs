@@ -1,5 +1,6 @@
 using Infrastructure;
 using MVC.DependencyInjection;
+using MVC.Infrastructure.Utilities.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApiServices(builder.Configuration);
 builder.Services.ConfigureServices();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<EmailService>();
+
 
 var app = builder.Build();
 

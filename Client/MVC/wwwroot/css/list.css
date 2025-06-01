@@ -15,7 +15,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+a{
+    text-decoration:none;
+}
 .e-add-icon::before {
     content: '\e70a';
 }

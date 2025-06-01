@@ -23,13 +23,14 @@ namespace MVC.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddCategory([FromForm]CategoryForCreationDto categoryDto)
+        public async Task<IActionResult> AddCategory(CategoryForCreationDto categoryDto)
         {
             var result = await _manager.CategoryService.AddCategoryAsync(categoryDto);
             if (result.IsSuccessStatusCode)
                 return RedirectToAction(nameof(Index));
             return View(categoryDto);
         }
+        [HttpGet]
         public async Task<IActionResult> EditCategory([FromRoute]int Id)
         {
             var category=await _manager.CategoryService.GetCategoryAsync(Id);
@@ -40,6 +41,7 @@ namespace MVC.Controllers
             };
             return View(categoryDto);
         }
+        [HttpPost]
         public async Task<IActionResult> EditCategory(CategoryForUpdateDto categoryDto)
         {
             var result = await _manager.CategoryService.EditCategoryAsync(categoryDto);

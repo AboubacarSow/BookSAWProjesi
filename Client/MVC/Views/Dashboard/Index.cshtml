@@ -1,0 +1,134 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int count_book = 0;
+    int count = 0;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="entete">
+        <h4 class="title"><i class="fa-solid fa-gauge me-2"></i>Dashboard</h4>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 mt-sm-3">
+            <div class="card bg-warning">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h4 class="text-light">Kitap Sayısı</h4>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="text-white fs-3">
+                                <span>
+                                    <i class="fa-solid fa-book"></i>
+                                    @Model.TotalBook
+                                </span>
+                            </h6>                 
+                         </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/Book/Index" style="text-decoration:none">
+                        <span class="text-light me-3">
+                            <i class="fa-solid fa-list me-3"></i>Kitaplar
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 mt-sm-3">
+            <div class="card bg-primary border-none">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h4 class="text-light">Kategori Sayısı</h4>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="text-white fs-3">
+                                <span>
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    @Model.TotalCategory
+                                </span>
+                            </h6>                 
+                         </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/Category/Index" style="text-decoration:none">
+                        <span class="text-light me-3">
+                            <i class="fa-solid fa-list me-3"></i>Kategori Paneli
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 mt-sm-3">
+            <div class="margin-auto mb-3 table-responsive tableau">
+                <table class="table table-hover table-striped table-sm ">
+                    <thead class="table-header rounded-3">
+                        <tr>
+                            <th>N°</th>
+                            <th>Ad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            count = 0;
+                        }
+                        @foreach (var category in Model.Categories)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@category.CategoryName</td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-lg-6 col-sm-12 mt-sm-3">
+            <div class="margin-auto mb-3 table-responsive tableau">
+                <table class="table table-hover table-striped table-sm ">
+                    <thead class="rounded-3 table-header">
+                        <tr>
+                            <th>N°</th>
+                            <th>Resim</th>
+                            <th>Ad</th>
+                            <th>Fıyat</th>
+                            <th>Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            count_book = 0;
+                        }
+                        @foreach (var book in Model.FeaturedBook)
+                        {
+                            count_book++;
+                            <tr class="text-nowrap">
+                                <td>@count_book</td>
+                                <td><img src="@book.ImageUrl" style="width:25px;height:25px;border-radius:50%" /></td>
+                                <td>@book.Name</td>
+                                <td>@book.Price</td>
+                                <td>@book.Stock</td>                              
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+  
+</div>
+

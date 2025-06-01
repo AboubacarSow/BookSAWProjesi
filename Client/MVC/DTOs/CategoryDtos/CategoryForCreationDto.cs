@@ -1,6 +1,9 @@
 ﻿namespace DTOs.CategoryDtos
 {
-    public class CategoryForCreationDto { public string CategoryName; }
+    public class CategoryForCreationDto 
+    { 
+        public string CategoryName { get; set; }
+    }
 
 
 }
