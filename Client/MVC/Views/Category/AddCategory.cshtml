@@ -1,0 +1,30 @@
+﻿@model CategoryForCreationDto 
+@{
+    ViewData["Title"] = "Kategori Ekleme";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container mx-3">
+    <h4 class="title text-center"><i class="fas fa-plus me-2"></i>Kategori Ekleme</h4>
+    <hr class="mb-4" />
+    
+    <form method="post">
+        <div class="mb-3 form-div">
+            <label for="categoryName" class="form-label">Kategori Ad</label>
+            <input type="text" class="form-control" id="categoryName" placeholder="Enter Category Name" 
+            asp-for ="@Model.CategoryName" />
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.CategoryName)</span>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Kaydet
+            </button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="fas fa-list"></i>
+                Kategoriler
+            </a>
+        </div>
+    </form>
+
+</div>

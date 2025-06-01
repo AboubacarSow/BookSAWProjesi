@@ -32,9 +32,7 @@ public class SubscriberManager : ISubscriberService
             await _repository.SavesChangesAsync();
             return;
         }
-
     }
-
     public async Task<List<ResultSubscriberDto>> GetAllSubscriberAsync(bool trackChanges)
     {
         var subscribers = await _repository.Subscriber.GetAllSubscribersAsync(trackChanges);

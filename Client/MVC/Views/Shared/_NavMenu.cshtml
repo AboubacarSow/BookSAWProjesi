@@ -1,0 +1,62 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">
+            <span class="entreprise"><i class="fa-solid fa-book-open me-2"></i>Kitaplık</span>
+        </a>
+    </div>
+
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <a class="nav-link" asp-action="Index" asp-controller="Dashboard" >
+                <div class="d-flex justify-content-between align-items-center">
+                    <i class="fa-solid fa-gauge ft-icon-dimension"></i>
+                    <span class="menu_item">Dashboard</span>
+                </div>
+            </a>
+        </div>
+        <div class="nav-item px-3">
+            <a class="nav-link" asp-action="Index" asp-controller="Category">
+                <div class="d-flex justify-content-between align-items-center">
+                    <i class="fa-solid fa-layer-group ft-icon-dimension"></i>
+                    <span class="menu_item">Kategoriler</span>
+                </div>
+            </a>
+        </div>
+        <div class="nav-item px-3">
+            <a class="nav-link" asp-action="Index" asp-controller="Book">
+                <div class="d-flex justify-content-between align-items-center">
+                    <i class="fa-solid fa-book ft-icon-dimension"></i>
+                    <span class="menu_item">Kitaplar</span>
+                </div>
+            </a>
+        </div>
+        <div class="nav-item px-3">
+            <a class="nav-link" asp-action="Home" asp-controller="Client">
+                <div class="d-flex justify-content-between align-items-center">
+                    <i class="fa-solid fa-globe ft-icon-dimension"></i>
+                    <span class="menu_item">Siteye Git</span>
+                </div>
+            </a>
+        </div>
+    </nav>
+</div>
+<script>
+    const element=document.querySelector('.nav-link a');
+
+    element.addEventListener('click', ()=>{
+       element.classList.add('active')
+    })
+
+
+
+</script>

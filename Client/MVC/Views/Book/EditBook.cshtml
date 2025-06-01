@@ -1,0 +1,68 @@
+﻿@model UpdateBookDto
+@{
+    ViewData["Title"] = "Kitap Güncelleme";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="form-container mx-3">
+    <h4 class="title text-center"><i class="fa-solid fa-book me-2"></i>Kitap Güncelleme</h4>
+    <hr class="mb-4" />
+    <form method="post">
+        <input type="hidden" asp-for="@Model.Id" />
+        <div class="mb-3 form-div">
+            <label for="bookName" class="form-label">Kitap Adı</label>
+            <input type="text" class="form-control"
+                   id="bookName" placeholder="Kitap adı girin" asp-for="@Model.Name" />
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.Name)</span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookPrice" class="form-label">Fiyat</label>
+            <input type="number" class="form-control"
+                   id="bookPrice" placeholder="Fiyat girin" asp-for="@Model.Price" />
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.Price)</span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookCategory" class="form-label">Category</label>
+            <select asp-items="@ViewBag.Categories" class="form-control" asp-for="@Model.CategoryId">
+                <option value="">Seçiniz</option>
+                
+            </select>
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.CategoryId)</span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookStock" class="form-label">Stok</label>
+            <input type="number" class="form-control"
+                   id="bookStok" placeholder="Stok girin" asp-for="@Model.Stock" />
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.Stock)</span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="bookDescription" class="form-label">Açıklama</label>
+            <textarea class="form-control" id="bookDescription" placeholder="Açıklama girin" asp-for="@Model.Description"></textarea>
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.Description)</span>
+        </div>
+
+        <div class="mb-3 form-div">
+            <label for="bookImage" class="form-label">Resim</label>
+            <input id="bookImage" class="form-control"
+                   placeholder="Resim girin" asp-for="@Model.ImageUrl" />
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.ImageUrl)</span>
+        </div>
+        <div class="mb-3 form-div">
+            <label for="author" class="form-label">Author</label>
+            <input id="author" class="form-control"
+                   placeholder="Yazar girin" asp-for="@Model.Author" />
+            <span class="text-danger">@Html.ValidationMessageFor(b => b.Author)</span>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Güncelle
+            </button>
+            <a asp-controller="Book" asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="fa-solid fa-arrow-left"></i>
+                Geri Dön
+            </a>
+        </div>
+    </form>
+</div>
+
