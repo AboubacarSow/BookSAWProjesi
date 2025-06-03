@@ -23,7 +23,7 @@ public class SubscriberController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var result=await _serviceManager.SubscriberService.Delete(id);
-        return result ? Json(new {success=true}) : Json(new {success=false});
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
