@@ -3,8 +3,8 @@
     ViewData["Title"] = "Aboneler";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     int count = 0;
+    var identifiant = 0;
 }
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container mx-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -53,6 +53,7 @@
 
 @foreach (var mail in Model)
 {
+    identifiant = mail.Id;
     <div class="modal fade" id="mail-@mail.Id" tabindex="-1" aria-labelledby="mail-@mail.Id" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -60,65 +61,83 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Mail Gönderme</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post" id="sendform-@mail.Id">
+                <form method="post" class="sendform" id="formulaire-@identifiant">
                     <div class="modal-body">
-                        <label class="form-label"> Mesaj</label>
-                        <textarea class="form-control" id="message-@mail.Id"> </textarea>
+                        <input type="hidden" value="@mail.Email" id="email-@mail.Id"/>
+                        <label class="form-label">Konu</label><br />
+                        <input id="subject-@mail.Id" type="text" placeholder="Konu giriniz" class="form-control" />
+                        <label class="form-label">Mesaj</label>
+                        <textarea class="form-control message" id="message-@mail.Id" placeholder="mesajınız yazınız"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Gönder</button>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-info" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-paper-plane me-2"></i>
+                                Gönder</button>
 
+                        </div>
                     </div>
                 </form>
-                <script>
-
-                    document.addEventListener('submit', function(event){
-                        event.preventDefault();
-                        const formData={
-                            Body:document.getElementById('message-@mail.Id').ariaValueMax
-                        }
-                        const url="/Subscriber/SendEmail";
-                        fetch(url,{
-                        method:"POST",
-                        hearders:{
-                            "Content-Type":"application/json",
-                            "Accept":"application/json"},
-                        body:JSON.stringify(formData)
-                        })
-                        .then(response=>response.json())
-                        .then(Date=>{
-                            if(data.success){
-                                    Swal.fire({
-                                      position: "top-center",
-                                      icon: "success",
-                                      title: "Mesajınız başarıyla gönderildi!",
-                                      showConfirmButton: false,
-                                      timer: 1500});
-                            }
-                            else{
-                                Swal.fire({
-                                  title: "Drag me!",
-                                  icon: "error",
-                                  draggable: true
-                                });
-                            }
-
-                        }).catch( error=>{
-                                    console.error('Something went wrong',error);
-                                     Swal.fire({
-                                         position:"top-center",
-                                         title: "Error!",
-                                         text: "Bir hata oluştu.",
-                                         icon: "error",
-                                         showConfirmButton: true,
-                                         timer:1500
-                                     });
-                        })
-                    })
-
-                </script>
             </div>
         </div>
     </div>
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+         
+        document.getElementById('formulaire-@identifiant').addEventListener('submit', function(event){
+            event.preventDefault();
+        
+            const formData={
+                Body:document.getElementById('message-@identifiant').value,
+                Subject:document.getElementById('subject-@identifiant').value,
+                Email:document.getElementById('email-@identifiant').value
+            };
+                console.log("Sending:", formData); // Better logging
+
+            fetch("/Subscriber/SendEmail",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json"},
+            body:JSON.stringify(formData)
+            })
+            .then(async response=>{
+                      if (!response.ok) {
+                          const errortext=await response.text;
+                    throw new Error(`HTTP error! status: ${response.status} ${response.body} Text:${errortext}`);
+                 }
+                return response.json()
+            })
+            .then(data=>{
+                if(data.success){
+                        Swal.fire({
+                          position: "top-end",
+                          icon: "success",
+                          title: "Mesajınız başarıyla gönderildi!",
+                          showConfirmButton: false,
+                          timer: 1500});
+                }
+                else{
+                    Swal.fire({
+                      title: "İşlem Başarısız!",
+                      icon: "error",
+                      draggable: true
+                    });
+                }
+
+            }).catch( error=>{
+                        console.error('Something went wrong',error);
+                         Swal.fire({
+                             position:"top-center",
+                             title: "Error!",
+                             text: "Bir hata oluştu.",
+                             icon: "error",
+                             showConfirmButton: true,
+                             timer:1500
+                         });
+            })
+    })
+
+</script>

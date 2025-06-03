@@ -1,8 +1,13 @@
-﻿namespace MVC.DTOs.SubscriberDtos;
+﻿using System.Text.Json.Serialization;
+
+namespace MVC.DTOs.SubscriberDtos;
 
 public class Message
 {
-    public string Body { get; set;}   
+    [JsonPropertyName("Body")]
+    public string Body { get; set;}
+    [JsonPropertyName("Subject")]
     public string Subject { get; set;}
+    [JsonPropertyName("Email")]
     public string Email {  get; set;}   
 }

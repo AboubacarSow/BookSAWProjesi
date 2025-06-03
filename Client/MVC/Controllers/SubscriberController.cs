@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MVC.DTOs.SubscriberDtos;
 using MVC.Infrastructure.Utilities.Email;
+using System.Text.Json;
 
 namespace MVC.Controllers;
 public class SubscriberController : Controller
@@ -26,9 +27,9 @@ public class SubscriberController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SendEmailAsync([FromBody]Message message)
+    public async Task<IActionResult> SendEmail([FromBody]Message message)
     {
-        await emailService.SendEmailAsync(message);
-        return Json(new {success=true});
+        var result=await emailService.SendEmailAsync(message);
+        return result ? Json(new { success = true }) : Json(new { success = false });
     }
 }
